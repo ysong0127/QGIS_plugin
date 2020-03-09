@@ -224,17 +224,18 @@ class SaveAttributes:
         # See if OK was pressed
         if result: 
             filename = self.dlg.lineEdit.text()
-            with open(filename, 'w') as output_File:
-                selectedLayerIndex = self.dlg.combobox.currentIndex()
+            with open(filename, 'w', encoding='big5') as output_File:
+                selectedLayerIndex = self.dlg.comboBox.currentIndex()
                 selectedLayer = layers[selectedLayerIndex].layer()
-            fieldnames = [field.name() for field in selectedLayer.fields()]
-            # write header
-            line = ','.join(name for name in fieldnames) + '\n'
-            output_file.write(line)
-            # wirte feature attributes
-            for f in selectedLayer.getFeatures():
-              line = ','.join(str(f[name]) for name in fieldnames) + '\n'
-              output_file.write(line)
-            # Do something useful here - delete the line containing pass and
-            # substitute with your code.
+                fieldnames = [field.name() for field in selectedLayer.fields()]
+                # write header
+                line = ','.join(name for name in fieldnames) + '\n'
+                uni_line = line.encode('big5')
+                output_File.write(line)
+                # wirte feature attributes
+                for f in selectedLayer.getFeatures():
+                  line = ','.join(str(f[name]) for name in fieldnames) + '\n'
+                  output_File.write(line)
+                # Do something useful here - delete the line containing pass and
+                # substitute with your code.
             pass
